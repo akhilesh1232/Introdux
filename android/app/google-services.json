@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "381079671153",
+    "project_id": "calendar-mp2",
+    "storage_bucket": "calendar-mp2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381079671153:android:c10acc915c8f161892a6d0",
+        "android_client_info": {
+          "package_name": "com.miniproject2.calendar_component"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381079671153-hmp3qpmft6jchkq8eijp6dnk52gg9toe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgxH8MSXfuoZ9faplQR7Erhrty_UXEOsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381079671153-hmp3qpmft6jchkq8eijp6dnk52gg9toe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
