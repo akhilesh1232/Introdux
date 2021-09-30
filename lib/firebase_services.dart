@@ -1,13 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'event.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'dart:async';
 
-// class FirebaseService {
-//   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-//   Stream<List<String>> getStringList() {
-//     return _firebaseFirestore.collection('testing').snapshots().map(
-//         (snapshots) =>
-//             snapshots.docs.map((docs) => String.fromJSON(docs.data())).toList());
-//   }
-// }
+class FirebaseService {
+  late FirebaseFirestore _firebaseFirestore;
+
+  FirebaseService() {
+    _firebaseFirestore = FirebaseFirestore.instance;
+  }
+
+  uploadEventData(Events a) {
+    _firebaseFirestore.collection('EventData').add({
+      'title': a.title,
+      'organizer': a.organizer,
+      'description': a.description,
+      'to': a.to,
+      'from': a.from,
+      'background': a.background.value,
+      'department': a.department
+    });
+  }
+
+  FirebaseFirestore getFirebaseFirestoreInstance() {
+    return _firebaseFirestore;
+  }
+}

@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import './calendar.dart';
 import 'package:firebase_core/firebase_core.dart';
+import './firebase_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,17 +9,20 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FirebaseService firebaseService = FirebaseService();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      home: Scaffold(
-        body: CalendarWidget(),
-      ),
+      home: CalendarWidget(),
     );
   }
 }
