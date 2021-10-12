@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "643836427364",
+    "project_id": "introdux-5f4d2",
+    "storage_bucket": "introdux-5f4d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643836427364:android:0af6f32688882098caf371",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643836427364-e26n6rma0fpqur25acibfg2vg3mabtou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3jaXKecrES9KrHP1Trm1Th8YtPTJh4ws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643836427364-e26n6rma0fpqur25acibfg2vg3mabtou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
