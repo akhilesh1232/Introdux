@@ -1,38 +1,46 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:myapp/databse/databaseManager.dart';
+import 'package:myapp/screens/EventBooking.dart';
 import 'package:myapp/screens/check_status_screen.dart';
 import 'package:myapp/screens/home_screen.dart';
-//import 'package:flutter/cupertino.dart';
-
 class BookingStudentScreen extends StatefulWidget {
   static const routeName = '/booking_stu';
   @override
   _BookingStudentScreenState createState() => _BookingStudentScreenState();
 }
-
+//
+enum DateValues { date1,date2,date3,date4,date5 }
 class _BookingStudentScreenState extends State<BookingStudentScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final FirebaseAuth auth = FirebaseAuth.instance;
    late String uid ;
+  String textString='';
    late DatabaseManager _db;
+  DateValues? _character = DateValues.date1;
   String dropdownValue = 'Please Select';
   Color color=Color.fromRGBO(255, 76, 41, 0.8);
   void initState() {
     final User? user = auth.currentUser;
     uid = user!.uid;
-     _db = DatabaseManager(uid);
+    _db = DatabaseManager(uid);
   }
   Future getPRN() async {
     var snapshot=await FirebaseFirestore.instance.collection('studentInfo').doc(uid).get();
     return snapshot.get('PRN');
   }
+  Future getToken() async {
+    var snapshot=await FirebaseFirestore.instance.collection('studentInfo').doc(uid).get();
+    return snapshot.get('tokenId');
+  }
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime startDateTime=DateTime.now();
   DateTime endDateTime=DateTime.now();
+  var duration;
   TextEditingController _titleController = new TextEditingController();
   TextEditingController _clubnmController = new TextEditingController();
   TextEditingController _descController = new TextEditingController();
@@ -43,7 +51,7 @@ class _BookingStudentScreenState extends State<BookingStudentScreen> {
 
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: DateTime(selectedDate.year,selectedDate.month,selectedDate.day+7),
       firstDate: selectedDate,
       lastDate: DateTime(selectedDate.year,selectedDate.month+3,selectedDate.day),);
     if (picked != null && picked != selectedDate) {
@@ -295,18 +303,69 @@ SizedBox(height:20),
                         ),
                         controller: _addInfoController,
                       ),
-                      SizedBox( width:double.maxFinite,height:50,
-                        child: ElevatedButton(onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            permission();
-                          }
-                        },
+                      SizedBox(
+                        width: double.maxFinite,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              //permission();
+                              bool val = await toUpload(
+                                  dropdownValue, startDateTime, endDateTime);
+                              if (val == false) {
+                                print(
+                                    'Permission is asked...wait for authorities to see it');
+                                permission();
+                              } else {
+                                print('Permission can not be asked');
+                                List <DateTime> ls=await suggestion(dropdownValue, startDateTime, endDateTime);
+                                showDialog<String>(
+                                                                    context: context,
+                                                                    builder: (BuildContext context) => AlertDialog(
+                                                                  title: const Text('Choose a different time slot'),
+                                                                   content: const Text('Time slot you have chosen is already booked. Choose other convenient start time from below.. '),
+                                                                  actions: <Widget>[
+                                                                    Container(
+                                                                      height:400, width: 300,
+                                                                      child: new ListView(
+                                                                        shrinkWrap: true,
+                                                        children: new List.generate(ls.length,
+                                    (index) => new ListTile(
+                                    title: ElevatedButton(   onPressed: () {
+                                      startDateTime=ls[index];
+                                      endDateTime=startDateTime.add(duration);
+                                      print('chosen start:'+startDateTime.toString());
+                                      print('chosen end:'+endDateTime.toString());
+                                      permission();
+                                    },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Color.fromRGBO(255, 76, 41,0.8),
+                                          padding: EdgeInsets.all(15)
+                                      ),
+                                      // child: Text(ls[index].toString().substring(0,ls[index].toString().length-7)),
+                                      child:Text(ls[index].toString().substring(0,11)+"at "+ls[index].toString().substring(12,ls[index].toString().length-7)),
+                                    ),
+                                    ),
+                                    ),
+                                    ),
+                                ),
+                            ],
+                                ),
+                                );
+                              }
+                            }
+                           },
                           style: ElevatedButton.styleFrom(
                               primary: Color.fromRGBO(255, 76, 41, 0.8),
-                              padding: EdgeInsets.all(15)
+                              padding: EdgeInsets.all(15)),
+                          child: Text(
+                            'Ask for Permission',
                           ),
-                          child: Text('Ask for Permission',),
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(textString,style: TextStyle(color: Colors.grey),textAlign:TextAlign.center,),
                       ),
                       SizedBox(height:10),
                       OutlinedButton(onPressed:()async{
@@ -337,10 +396,15 @@ SizedBox(height:20),
       ),
     );
   }
+
+
   void permission() async {
       await _db.addEvent(
           _titleController.text, _clubnmController.text,_descController.text,dropdownValue,_venueController.text,startDateTime,endDateTime,color.toString(),_addInfoController.text);
       print('asked for permission');
+      setState(() {
+        textString='Asked for permission. You will receive a notification once authority acknowledges';
+      });
     }
   Widget buildColorPicker()=>BlockPicker(pickerColor: color,
     availableColors: [Colors.red,Colors.green,Colors.blue,Colors.yellow,Colors.orange,Colors.pink,Colors.purple,Colors.grey,Colors.brown,Colors.cyan]
@@ -355,4 +419,35 @@ SizedBox(height:20),
     ],
   ),),
   );
+    suggestion(String dropdownValue, DateTime startDateTime, DateTime endDateTime) async {
+     duration=endDateTime.difference(startDateTime);
+    print('duration:'+duration.toString());
+    List <DateTime> arr=[];int myVar=1;
+    for(int i=0;i<4;i++)
+    {
+      var suggestion;
+      if(i%2==0)
+        suggestion=DateTime(startDateTime.year,startDateTime.month,startDateTime.day-myVar,9,00);
+      else{
+        suggestion=DateTime(startDateTime.year,startDateTime.month,startDateTime.day-myVar,15,30);
+        myVar++;}
+      bool val = await toUpload(dropdownValue,suggestion,suggestion.add(duration));
+      if(val==false)
+        arr.add(suggestion);
+    }
+    myVar=0;
+    for(int i=0;i<6;i++)
+      {
+        var suggestion;
+        if(i%2==0)
+          suggestion=DateTime(startDateTime.year,startDateTime.month,startDateTime.day+myVar,9,00);
+        else{
+          suggestion=DateTime(startDateTime.year,startDateTime.month,startDateTime.day+myVar,15,30);
+          myVar++;}
+        bool val = await toUpload(dropdownValue,suggestion,suggestion.add(duration));
+        if(val==false)
+          arr.add(suggestion);
+      }
+    return arr;
+  }
 }

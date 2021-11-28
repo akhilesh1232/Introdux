@@ -23,9 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_maps_flutter: ^2.0.9
-  dio: ^4.0.0
-  flutter_polyline_points: ^1.0.0
+#  google_maps_flutter: ^2.0.9
+#  dio: ^4.0.0
+#  flutter_polyline_points: ^1.0.0
   geolocator: ^7.6.2
   firebase_auth: ^3.1.3
   flutter_colorpicker: ^0.6.0
@@ -38,6 +38,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  url_launcher: ^6.0.12
+  firebase_messaging: ^10.0.9
+  onesignal_flutter: ^3.2.4
+  http: ^0.13.4
 
 
 dev_dependencies:
@@ -56,8 +60,11 @@ flutter:
   uses-material-design: true
 
   assets:
-    - locationlist.json
     - asset/logo2.png
+    - asset/calendar.jpg
+    - asset/map.jpg
+    - asset/logout2.jpg
+    - asset/booking2.jpg
 
   # To add assets to your application, add an assets section, like this:
   # An image asset can refer to one or more resolution-specific "variants", see

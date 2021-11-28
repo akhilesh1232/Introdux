@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/forgot_password_screen.dart';
+import 'package:myapp/screens/map_utils.dart';
 import 'package:myapp/services/authentication.dart';
 import 'package:myapp/screens/forgot_password_screen.dart';
 //import 'package:provider/provider.dart';
-
 import 'signup_screen.dart';
 import 'home_screen.dart';
 //import '../models/authentication.dart';
@@ -95,7 +95,9 @@ String _emailerror='',_passworderror='';
                         ),
                         SizedBox(
                           width: double.maxFinite,
-                          child: ElevatedButton(   onPressed: () {
+                          child: ElevatedButton(
+
+                            onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               signInUser();
                             }
@@ -105,6 +107,7 @@ String _emailerror='',_passworderror='';
                                 padding: EdgeInsets.all(15)
                             ),
                             child: Text('Login'),
+
                           ),
                         ),
                         SizedBox(height: 10,),
@@ -136,7 +139,9 @@ String _emailerror='',_passworderror='';
                                 decoration: TextDecoration.underline,
                                 decorationThickness: 3,
                               ),),
+
                             ),
+
                           ],
                         ),
                       ],
@@ -145,6 +150,7 @@ String _emailerror='',_passworderror='';
                 ),
               ),
             ),
+
         ],
       ),
     );

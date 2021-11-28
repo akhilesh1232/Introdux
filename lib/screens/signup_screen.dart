@@ -142,7 +142,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             //_authData['password'] = value;
                           },
                         ),
-
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Password length should be >=8 containing at least one uppercase character ,at least one lowercase character ,at least one digit & at least one special character ',style: TextStyle(color: Colors.grey),textAlign:TextAlign.center,),
+                        ),
                         //Confirm Password
                         TextFormField(
                           style: TextStyle(color: Colors.white),
