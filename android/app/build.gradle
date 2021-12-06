@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 buildscript {
     repositories {
         // ...
@@ -11,6 +12,8 @@ buildscript {
 }
 
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+=======
+>>>>>>> 05171babf517200cdbae8f11c9b5314a6dce47f5
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -37,7 +40,10 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+<<<<<<< HEAD
 apply plugin: 'com.google.gms.google-services'
+=======
+>>>>>>> 05171babf517200cdbae8f11c9b5314a6dce47f5
 
 android {
     compileSdkVersion 30
@@ -48,12 +54,20 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+<<<<<<< HEAD
         applicationId "com.example.myapp"
         minSdkVersion 20
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+=======
+        applicationId "com.example.untitled"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+>>>>>>> 05171babf517200cdbae8f11c9b5314a6dce47f5
     }
 
     buildTypes {
@@ -72,4 +86,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 05171babf517200cdbae8f11c9b5314a6dce47f5

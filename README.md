@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # myapp
+=======
+# untitled
+>>>>>>> 05171babf517200cdbae8f11c9b5314a6dce47f5
 
 A new Flutter project.
 
